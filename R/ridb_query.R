@@ -38,7 +38,7 @@ ridb.query <- function(api, arg) {
         startvals <- seq(50, total, 50)
 
         # Loop through remaining queries to obtain all records:
-        parsed.remaining <- lapply(startvals, function(s){
+        parsed.remaining <- lapply(startvals, function(s) {
           # Create path:
           temp.path <- paste("api", pkg.env$api.version, api, paste(arg, collapse = "/"), sep = "/")
 
@@ -56,14 +56,14 @@ ridb.query <- function(api, arg) {
         })
 
         # Combine parsed returns:
-        parsed.remaining[[length(parsed.remaining)+1]] <- process.geometry(parsed[[1]])
+        parsed.remaining[[length(parsed.remaining) + 1]] <- process.geometry(parsed[[1]])
         return.full <- dplyr::bind_rows(parsed.remaining)
       } else {
         return.full <- process.geometry(parsed[[1]])
       }
     } else {
       # If list is returned, reformat:
-      if(class(parsed) == "list"){
+      if (class(parsed) == "list") {
         return.full <- data.frame(process.geometry(parsed))
       } else {
         return.full <- process.geometry(parsed)

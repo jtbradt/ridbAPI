@@ -1,15 +1,24 @@
 Package: ridbAPI
-Title: What the Package Does (One Line, Title Case)
+Title: Query the Recreation Information Database API
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Jacob",
+           family = "Bradt",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "jtbradt@gmail.com")
+Description: This package provides a set of R wrapper functions used to bulk extract data
+    from the Recreation Information Database (RIDB) API, which is part of the Recreation
+    One Stop (Rec1Stop) project. The package supports queries to all API endpoints as of
+    v1.0 of the RIDB API. For additional information on the RIDB API, see 
+    https://ridb.recreation.gov/
+License: `use_mit_license()`
+Imports:
+    dplyr,
+    data.table,
+    httr,
+    jsonlite,
+    sf,
+    tidyr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

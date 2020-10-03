@@ -17,4 +17,3 @@ activities <- function(activities = NULL) {
     query <- data.table::rbindlist(query)
   }
 }
-

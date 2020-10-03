@@ -16,13 +16,13 @@ process.geometry <- function(data) {
     type <- data$GEOJSON$TYPE
 
     # If geometry type is point, process:
-    if (unique(type)[unique(type)!=""] %in% c("Point", "point", "POINT")) {
+    if (unique(type)[unique(type) != ""] %in% c("Point", "point", "POINT")) {
       # If geometry is a list:
       if (class(geometry) == "list") {
         # Set null geometries to c(0,0):
-        geometry <- lapply(geometry, function(x){
-          if(is.null(x)){
-            x <- c(0,0)
+        geometry <- lapply(geometry, function(x) {
+          if (is.null(x)) {
+            x <- c(0, 0)
           } else {
             x <- x
           }
@@ -35,8 +35,7 @@ process.geometry <- function(data) {
       }
 
       # Convert to sfc:
-      geometry.sf <- sf::st_set_crs(sf::st_as_sf(geometry, coords = c(1,2)), 4326)
-
+      geometry.sf <- sf::st_set_crs(sf::st_as_sf(geometry, coords = c(1, 2)), 4326)
     } else {
       stop("GeoJSON data type not point geometries. Cannot currently process non-point geometries!")
     }
@@ -45,7 +44,7 @@ process.geometry <- function(data) {
     if (class(data) == "list") {
       return <- append(data[names(data) != "GEOJSON"], geometry.sf)
     } else {
-      return <- dplyr::bind_cols(data[,names(data) != "GEOJSON"], geometry.sf)
+      return <- dplyr::bind_cols(data[, names(data) != "GEOJSON"], geometry.sf)
     }
   } else {
     return <- data
@@ -53,5 +52,3 @@ process.geometry <- function(data) {
 
   return(return)
 }
-
-
