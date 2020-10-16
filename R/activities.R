@@ -1,19 +1,40 @@
 #' Activities function
 #'
 #' This function queries the Activities API:
-#' @param activities is the set of activities to retrieve
+#' @param lookup.type is the type of entity to use to query campsites
+#' @param lookup.args is a vector of arguments used to query campsites
 #' @keywords activities
 #' @export
 
-activities <- function(activities = NULL) {
-  # If no set of activities supplied, query all activities:
-  if (is.null(activities)) {
-    query <- ridb.query("activities", NULL)
+activities <- function(lookup.type, lookup.args) {
+  # If lookup.type is not 'activities', execute query:
+  if (lookup.type != "activities") {
+    # If lookup.args is null, return error:
+    if (is.null(lookup.args)) {
+      stop(paste0("Cannot query all '", lookup.type, "' activities; please supply a vector of arguments to query."))
+    } else {
+      # Execute query:
+      query <- lapply(lookup.args, function(a){
+        ridb.query(lookup.type, c(a, "activities"))
+      })
+
+      # Bind return rows:
+      full.query <- do.call(rbind, query)
+    }
   } else {
-    # Loop over set of activities supplied:
-    query <- lapply(activities, function(a) {
-      temp.query <- ridb.query("activities", a)
-    })
-    query <- data.table::rbindlist(query)
+    # Execute query:
+    if (is.null(lookup.args)) {
+      full.query <- ridb.query(lookup.type, NULL)
+    } else {
+      query <- lapply(lookup.args, function(a){
+        ridb.query(lookup.type, a)
+      })
+
+      # Bind return rows:
+      full.query <- do.call(rbind, query)
+    }
   }
+
+  return(full.query)
 }
+
